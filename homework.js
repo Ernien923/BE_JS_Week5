@@ -250,13 +250,13 @@ function updateCartItemQuantity(carts, cartId, newQuantity) {
   let newCarts = carts.map((cart) => {
     if (cart.id === cartId) {
       if (newQuantity === 0) {
-        return;
+        return { ...cart, quantity: 0 }; //要刪除的品項先把數量設為0
       }
       return { ...cart, quantity: newQuantity }; //更新數量，其餘屬性保持原樣
     }
     return cart; //不是要改的品項就不動
   });
-  return newCarts;
+  return newCarts.filter((cart) => cart.quantity !== 0); //篩選掉數量為0的購物車產品
 }
 
 /**
