@@ -130,7 +130,7 @@ function getProductsByCategory(products, category) {
  */
 function getDiscountRate(product) {
   // 請實作此函式
-  let discount = Math.round((product.price / product.origin_price) * 100) % 10 === 0 ? (product.price / product.origin_price) * 10 : (product.price / product.origin_price) * 100
+  let discount = Math.round((product.price / product.origin_price) * 100) % 10 === 0 ? (product.price / product.origin_price) * 10 : (product.price / product.origin_price) * 100;
   return String(`${Math.round(discount)}折`);
 }
 
