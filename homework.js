@@ -130,7 +130,8 @@ function getProductsByCategory(products, category) {
  */
 function getDiscountRate(product) {
   // 請實作此函式
-  return String(`${Math.round((product.price / product.origin_price) * 10)}折`);
+  let discount = Math.round((product.price / product.origin_price) * 100) % 10 === 0 ? (product.price / product.origin_price) * 10 : (product.price / product.origin_price) * 100
+  return String(`${Math.round(discount)}折`);
 }
 
 /**
@@ -145,9 +146,8 @@ function getAllCategories(products) {
   products.forEach((product) => categoryArray.push(product.category));
   //用 set 去重
   return [...new Set(categoryArray)];
-  //console.log(categoryArray);
 }
-getAllCategories(products);
+
 
 // ========================================
 // 任務二：購物車計算模組 (中階)
