@@ -102,9 +102,7 @@ const orders = [
  */
 function getProductById(products, productId) {
   // 請實作此函式
-  return products.find((product) => product.id === productId)
-    ? products.find((product) => product.id === productId)
-    : null;
+  return products.find((product) => product.id === productId) || null;
 }
 
 /**
@@ -130,8 +128,8 @@ function getProductsByCategory(products, category) {
  */
 function getDiscountRate(product) {
   // 請實作此函式
-  let discount = Math.round((product.price / product.origin_price) * 100) % 10 === 0 ? (product.price / product.origin_price) * 10 : (product.price / product.origin_price) * 100;
-  return String(`${Math.round(discount)}折`);
+  let discount = Math.round((product.price / product.origin_price) * 100);
+  return discount % 10 === 0 ? `${discount / 10}折` : `${discount}折`
 }
 
 /**
@@ -228,14 +226,29 @@ function isProductInCart(carts, productId) {
  */
 function addToCart(carts, product, quantity) {
   // 請實作此函式
-  return [
-    ...carts,
-    {
-      id: `cart-${carts.length + 1}`,
-      product,
-      quantity,
-    },
-  ];
+  //先檢查產品是否存在，如果存在則取得元素索引值
+  let findProductIndex = carts.findIndex(cart => cart.product.id === product.id);
+  //如果產品已存在，則合併數量
+  if (findProductIndex !== -1){
+    return carts.map((cart, index) => {
+      if (index === findProductIndex) {
+      return {
+          ...cart,
+          quantity: cart.product.id + quantity
+        }
+      }
+      return cart;  //其餘購物車列表不動
+    })
+  }else {
+    return [
+      ...carts,
+      {
+        id: `cart-${carts.length + 1}`,
+        product,
+        quantity,
+      },
+    ];
+  }
 }
 
 /**
@@ -276,8 +289,8 @@ function removeFromCart(carts, cartId) {
  */
 function clearCart() {
   // 請實作此函式
-  carts.length = 0;
-  return carts;
+  //carts.length = 0;  //會動到原本陣列
+  return [];
 }
 
 // ========================================
